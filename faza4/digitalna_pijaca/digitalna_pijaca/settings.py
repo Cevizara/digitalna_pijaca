@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bootstrap5',
+    'django_bootstrap5',
     'django_bootstrap_icons'
 ]
 
@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'digitalna_pijaca.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'digitalnapijaca',
+        'USER': 'root',           # Your MySQL username
+        'PASSWORD': '123',   # Your MySQL password
+        'HOST': 'localhost',         # Or the host of your MySQL server
+        'PORT': '3306',              # Default MySQL port
     }
 }
 
@@ -98,6 +102,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'app.Korisnik'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -120,3 +126,4 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+AUTHENTICATION_BACKENDS = ['app.backends.EmailBackend', 'django.contrib.auth.backends.ModelBackend']

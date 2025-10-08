@@ -1,72 +1,86 @@
-{% extends 'master.html' %}
-{% load static %}
-
-{% block title %}Prijava - Digitalna pijaca{% endblock %}
-
-{% block content %}
-    <section class="h-100" style="background-color: #DEE8CE">
-{#    height: 90.5%#}
-        <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center     align-items-center h-100">
-
-                <div class="col col-xl-10">
-                    <div class="card" style="border-radius: 1rem;">
-                        <div class="row g-0">
-                            <div class="col-md-6 col-lg-5 d-none d-md-block">
-                                <img src="{% static 'images/vocepovrce.jpg' %}"
-                                     alt="login form"
-                                     class="img-fluid"
-                                     style="border-radius: 1rem 0 0 1rem;"
-                                />
-                            </div>
-                            <div class="col-md-6 col-lg-7 d-flex align-items-center">
-                                <div class="card-body p-4 p-lg-5 text-black">
-                                    <form>
-                                        <div class="d-flex align-items-center mb-3 pb-1">
-                                            <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;">
-                                            </i>
-                                            <span class="h1 fw-bold mb-0"></span>
-                                        </div>
-
-                                        <h5
-                                                class="fw-normal mb-3 pb-3"
-                                                style="letter-spacing: 1px;">
-                                            Dobrodošli na sajt digitalna pijaca!
-                                        </h5>
-
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <input type="email"
-                                                   id="email"
-                                                   class="form-control form-control-lg"
-                                            />
-                                            <label class="form-label" for="email">Email</label>
-                                        </div>
-
-                                        <div data-mdb-input-init class="form-outline mb-4">
-                                            <input type="password"
-                                                   id="sifra"
-                                                   class="form-control form-control-lg"/>
-                                            <label class="form-label" for="sifra">Šifra</label>
-                                        </div>
-
-                                        <div class="pt-1 mb-4">
-                                            <a href="{% url 'pocetna' %}" class="btn btn-dark btn-lg btn-block">Uloguj
-                                                se</a>
-                                        </div>
-
-                                        <p class="mb-3 pb-lg-2" style="color: #393f81;">Nemaš nalog? <a
-                                                href="{% url 'registracija' %}"
-                                                style="color: #393f81;">Registruj se ovde</a></p>
-                                        <p><a href="{% url 'pocetna' %}"
-                                              style="color: #393f81;">Nastavi kao gost</a></p>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{% extends 'master.html' %} {% load static %} {% block title %}Prijava -
+Digitalna pijaca{% endblock %} {% block content %}
+<section class="h-100" style="background-color: #dee8ce">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col col-xl-10">
+        <div class="card" style="border-radius: 1rem">
+          <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+              <img
+                src="{% static 'images/vocepovrce.jpg' %}"
+                alt="login form"
+                class="img-fluid"
+                style="border-radius: 1rem 0 0 1rem"
+              />
             </div>
+            <div class="col-md-6 col-lg-7 d-flex align-items-center">
+              <div class="card-body p-4 p-lg-5 text-black">
+                {% if messages %} {% for message in messages %}
+                <div class="alert alert-danger">{{ message }}</div>
+                {% endfor %} {% endif %}
+
+                <form method="POST" action="{% url 'prijava' %}">
+                  {% csrf_token %}
+
+                  <div class="d-flex align-items-center mb-3 pb-1">
+                    <i
+                      class="fas fa-cubes fa-2x me-3"
+                      style="color: #ff6219"
+                    ></i>
+                    <span class="h1 fw-bold mb-0"></span>
+                  </div>
+
+                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px">
+                    Dobrodošli na sajt digitalna pijaca!
+                  </h5>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      class="form-control form-control-lg"
+                      required
+                    />
+                    <label class="form-label" for="email">Email</label>
+                  </div>
+
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <input
+                      type="password"
+                      id="sifra"
+                      name="sifra"
+                      class="form-control form-control-lg"
+                      required
+                    />
+                    <label class="form-label" for="sifra">Šifra</label>
+                  </div>
+
+                  <div class="pt-1 mb-4">
+                    <button type="submit" class="btn btn-dark btn-lg btn-block">
+                      Uloguj se
+                    </button>
+                  </div>
+
+                  <p class="mb-3 pb-lg-2" style="color: #393f81">
+                    Nemaš nalog?
+                    <a href="{% url 'registracija' %}" style="color: #393f81"
+                      >Registruj se ovde</a
+                    >
+                  </p>
+                  <p>
+                    <a href="{% url 'pocetna' %}" style="color: #393f81"
+                      >Nastavi kao gost</a
+                    >
+                  </p>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock %}

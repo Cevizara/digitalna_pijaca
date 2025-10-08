@@ -17,10 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from .views import pocetna, prijava, registracija
+from .views import pocetna, prijava, registracija, odjava
 
 urlpatterns = [
     path('', pocetna, name='pocetna'),
     path('prijava/', prijava, name='prijava'),
-    path('registracija/', registracija, name='registracija')
+    path('registracija/', registracija, name='registracija'),
+    path('odjava/', odjava, name='odjava')
 ]

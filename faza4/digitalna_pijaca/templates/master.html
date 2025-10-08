@@ -3,189 +3,193 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>{% block title %}Title{% endblock %}</title>
 
-    {% load bootstrap5 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
+    {% load django_bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
 
     <style>
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            top: 0;
-            right: 0;
-            background-color: #f8f9fa;
-            overflow-x: hidden;
-            transition: 0.3s;
-            padding-top: 60px;
-            z-index: 1050;
-        }
+      .sidebar {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: #f8f9fa;
+        overflow-x: hidden;
+        transition: 0.3s;
+        padding-top: 60px;
+        z-index: 1050;
+      }
 
-        .sidebar a,
-        .sidebar p,
-        .sidebar button {
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 18px;
-            display: block;
-            color: #000;
-        }
+      .sidebar a,
+      .sidebar p,
+      .sidebar button {
+        padding: 10px 20px;
+        text-decoration: none;
+        font-size: 18px;
+        display: block;
+        color: #000;
+      }
 
-        .sidebar button {
-            border: none;
-            background: unset;
-            text-align: left;
-            width: 100%;
-        }
+      .sidebar button {
+        border: none;
+        background: unset;
+        text-align: left;
+        width: 100%;
+      }
 
-        .sidebar button:hover,
-        .sidebar a:hover {
-            background-color: #ddd;
-        }
+      .sidebar button:hover,
+      .sidebar a:hover {
+        background-color: #ddd;
+      }
 
-        .sidebar .closebtn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 24px;
-        }
+      .sidebar .closebtn {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 24px;
+      }
     </style>
-</head>
-<body style="height: 100vh">
-<nav class="navbar navbar-light bg-light px-3">
-    <a class="navbar-brand d-flex align-items-center" href="{% url 'pocetna' %}">
+  </head>
+  <body style="height: 100vh">
+    <nav class="navbar navbar-light bg-light px-3">
+      <a
+        class="navbar-brand d-flex align-items-center"
+        href="{% url 'pocetna' %}"
+      >
         <img
-                src="{% static 'images/LogoZaProjekatPSI.png' %}"
-                alt="Logo"
-                class="me-2 img-thumbnail"
-                width="50"
-                height="50"
+          src="{% static 'images/LogoZaProjekatPSI.png' %}"
+          alt="Logo"
+          class="me-2 img-thumbnail"
+          width="50"
+          height="50"
         />
         Digitalna pijaca
-    </a>
+      </a>
 
-    <button
-            class="navbar-toggler border-0"
-            type="button"
-            onclick="openSidebar()"
-    >
+      <button
+        class="navbar-toggler border-0"
+        type="button"
+        onclick="openSidebar()"
+      >
         <span class="navbar-toggler-icon"></span>
-    </button>
-</nav>
+      </button>
+    </nav>
 
-{# TODO: prema ulozi trenutno ulogovanog korisnika prikazivati odredjene stavke menija #}
-<div id="mySidebar" class="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()"
-    >×</a
-    >
-    <p>Zdravo ${username}</p>
-    <a href="{% url 'prijava' %}">Prijava</a>
-    <a href="{% url 'registracija' %}">Registracija</a>
-    <button
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#zahtevModal"
-    >
+    <!-- TODO: prema ulozi trenutno ulogovanog korisnika prikazivati odredjene
+    stavke menija -->
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()"
+        >×</a
+      >
+      {% if user.is_authenticated %}
+      <p>Zdravo {{user.ime}}!</p>
+      {% else %}
+      <p>Zdravo posetioce!</p>
+      {% endif %}
+      <a href="{% url 'prijava' %}">Prijava</a>
+      <a href="{% url 'registracija' %}">Registracija</a>
+      <button
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#zahtevModal"
+      >
         Postani domacin
-    </button>
-    <a href="izlog.html">Moj izlog</a>
-    <a href="admin_dashboard.html">Dashboard</a>
-    <a href="{% url 'prijava' %}">Odjavi se</a>
-</div>
+      </button>
+      <a href="izlog.html">Moj izlog</a>
+      <a href="admin_dashboard.html">Dashboard</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'odjava' %}">Odjavi se</a>
+      {% endif %}
+    </div>
 
-<!-- MODAL -->
-<div
-        class="modal fade"
-        id="zahtevModal"
-        tabindex="-1"
-        aria-labelledby="zahtevModalLabel"
-        aria-hidden="true"
->
-    <div class="modal-dialog">
+    <!-- MODAL -->
+    <div
+      class="modal fade"
+      id="zahtevModal"
+      tabindex="-1"
+      aria-labelledby="zahtevModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
         <div class="modal-content">
-            <!-- Naslov -->
-            <div class="modal-header">
-                <h5 class="modal-title" id="zahtevModalLabel">Posalji zahtev</h5>
-                <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Zatvori"
-                ></button>
+          <!-- Naslov -->
+          <div class="modal-header">
+            <h5 class="modal-title" id="zahtevModalLabel">Posalji zahtev</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Zatvori"
+            ></button>
+          </div>
+
+          <!-- Forma -->
+          <form id="zahtevForm">
+            <div class="modal-body">
+              <!-- Adresa -->
+              <div class="mb-3">
+                <label for="adresa" class="form-label">Adresa</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="adresa"
+                  name="adresa"
+                  required
+                />
+              </div>
+
+              <!-- Mesto -->
+              <div class="mb-3">
+                <label for="mesto" class="form-label">Mesto</label>
+                <select class="form-select" id="mesto" name="mesto" required>
+                  <option value="">Izaberi grad</option>
+                  {% for mesto in mesta %}
+                  <option value="{{ mesto.id_mesto }}">
+                    {{ mesto.naziv }}
+                  </option>
+                  {% endfor %}
+                </select>
+              </div>
+
+              <!-- Broj telefona -->
+              <div class="mb-3">
+                <label for="telefon" class="form-label">Broj telefona</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="telefon"
+                  name="telefon"
+                  required
+                />
+              </div>
             </div>
 
-            <!-- Forma -->
-            <form id="zahtevForm">
-                <div class="modal-body">
-                    <!-- Adresa -->
-                    <div class="mb-3">
-                        <label for="adresa" class="form-label">Adresa</label>
-                        <input
-                                type="text"
-                                class="form-control"
-                                id="adresa"
-                                name="adresa"
-                                required
-                        />
-                    </div>
-
-                    <!-- Mesto -->
-                    <div class="mb-3">
-                        <label for="mesto" class="form-label">Mesto</label>
-                        <select class="form-select" id="mesto" name="mesto" required>
-                            <option value="">Izaberi grad</option>
-                            <option>Beograd</option>
-                            <option>Novi Sad</option>
-                            <option>Nis</option>
-                            <option>Kragujevac</option>
-                            <option>Subotica</option>
-                            <option>Zrenjanin</option>
-                            <option>Pancevo</option>
-                        </select>
-                    </div>
-
-                    <!-- Broj telefona -->
-                    <div class="mb-3">
-                        <label for="telefon" class="form-label">Broj telefona</label>
-                        <input
-                                type="tel"
-                                class="form-control"
-                                id="telefon"
-                                name="telefon"
-                                required
-                        />
-                    </div>
-                </div>
-
-                <!-- Dugmad -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">
-                        Posalji zahtev
-                    </button>
-                </div>
-            </form>
+            <!-- Dugmad -->
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">
+                Posalji zahtev
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</div>
 
-{% block content %}
+    {% block content %} {% endblock %}
 
-{% endblock %}
+    <script>
+      const role = "admin";
 
-<script>
-    const role = "admin";
-
-    function openSidebar() {
+      function openSidebar() {
         document.getElementById("mySidebar").style.width = "250px";
-    }
+      }
 
-    function closeSidebar() {
+      function closeSidebar() {
         document.getElementById("mySidebar").style.width = "0";
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>
