@@ -25,6 +25,6 @@ Na platformi svaki domaćin ima svoj **digitalni izlog** gde prikazuje ponudu. D
 
 Za više informacija pogledajte kompletnu dokumentaciju u folderu `faza1/` projekta.
 
-##homepage
+## Slika početne strane
 
 ![image alt](https://github.com/Cevizara/digitalna_pijaca/blob/f433893690ed893c83686c106b44755443f97a30/Screenshot%202026-01-20%20015954.PNG.jpg)
